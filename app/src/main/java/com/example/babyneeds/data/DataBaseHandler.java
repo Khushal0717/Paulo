@@ -29,24 +29,24 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_BABY_TABLE = " CREATE TABLE " + Constants.DATABASE_TABLE + "("
-                + Constants.KEY_ID + "INTEGER PRIMARY KEY, "
-                + Constants.KEY_ITEM_NAME + "TEXT, "
-                + Constants.KEY_QUANTITY + "INTEGER, "
-                + Constants.KEY_COLOR + "TEXT, "
-                + Constants.KEY_SIZE + "INTEGER "
-             /*   + Constants.KEY_DATE_NAME + "LONG" */+ ")";
+        String CREATE_BABY_TABLE = "CREATE TABLE " + Constants.DATABASE_TABLE + "("
+                + Constants.KEY_ID + " INTEGER PRIMARY KEY,"
+                + Constants.KEY_ITEM_NAME +" TEXT,"
+                + Constants.KEY_QUANTITY + " INTEGER,"
+                + Constants.KEY_COLOR + " TEXT,"
+                + Constants.KEY_SIZE + " INTEGER);";
+//                + Constants.KEY_DATE_NAME + " LONG);";
 
-        sqLiteDatabase.execSQL(CREATE_BABY_TABLE);
+        db.execSQL(CREATE_BABY_TABLE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.DATABASE_TABLE );
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.DATABASE_TABLE);
 
         onCreate(sqLiteDatabase);
     }
@@ -54,7 +54,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     //Add Item
     public void AddItem(Item item){
 
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Constants.KEY_ITEM_NAME,item.getItemName());
@@ -71,7 +71,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public Item getItem(int id){
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Constants.DATABASE_TABLE,
                 new String[]{Constants.KEY_ID,
@@ -105,15 +105,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public List<Item> getAllItem(){
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         List<Item> allItemList = new ArrayList<>();
         Cursor cursor = db.query(Constants.DATABASE_TABLE,
                 new String[]{Constants.KEY_ID,
                         Constants.KEY_ITEM_NAME,
                         Constants.KEY_QUANTITY,
                         Constants.KEY_COLOR,
-                        Constants.KEY_SIZE,
-                      /*  Constants.KEY_DATE_NAME*/},
+                        Constants.KEY_SIZE},
+                      /*  Constants.KEY_DATE_NAME*/
                 null,null,null,null,Constants.KEY_DATE_NAME + "DESC" );
 
         if(cursor.moveToFirst()){

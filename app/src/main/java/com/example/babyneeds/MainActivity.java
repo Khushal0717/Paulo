@@ -11,12 +11,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        db = new DataBaseHandler(MainActivity.this);
+        List<Item> tasks = db.getAllItem();
+        for(Item task :tasks){
+            Log.d("Main", "onCreate: " + task.getItemName());
+        }
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        db = new DataBaseHandler(MainActivity.this);
+
 
     }
 
